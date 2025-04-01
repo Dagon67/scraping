@@ -1,90 +1,34 @@
-# Academic Paper Scraper
+# Computer Vision Scraper
 
-Um scraper Python robusto para download automático de artigos acadêmicos de diversos publishers e repositórios. Desenvolvido especialmente para pesquisa em educação e psicologia cognitiva.
-
-## Tópicos de Pesquisa
-
-O scraper é otimizado para os seguintes tópicos:
-- Superdotação (Giftedness)
-- Aprendizagem Alternativa (Alternative Learning)
-- Figuras Históricas (Historical Figures)
-- Topologia Cerebral (Brain Topology)
-- Tipos de Inteligência (Types of Intelligence)
-- Métodos de Aprendizagem (Learning Methods)
-- Interdisciplinaridade (Interdisciplinary)
-- Dimensões Culturais (Cultural Dimensions)
-- Metacognição (Metacognition)
-
-## Publishers Suportados
-
-### Principais Publishers
-- PLOS ONE
-  - Extração direta de PDFs
-  - Suporte a metadados completos
-  - Cache de resultados
-
-- MDPI
-  - Download via DOI
-  - Extração de citações
-  - Suporte a artigos Open Access
-
-- Frontiers
-  - Download direto de PDFs
-  - Extração de referências
-  - Suporte a supplementary materials
-
-- BioMed Central
-  - Acesso a texto completo
-  - Extração de figuras
-  - Metadados estruturados
-
-- Nature
-  - Acesso a abstracts
-  - Download de PDFs (quando disponível)
-  - Extração de dados de citação
-
-### Publishers Secundários
-- SciELO
-- Taylor & Francis
-- SAGE
-- Wiley Online
-- Cambridge Core
+Um scraper Python que utiliza técnicas de visão computacional para extrair e processar informações de imagens e vídeos.
 
 ## Funcionalidades
 
-### Download de Artigos
-- Download automático de PDFs
-- Verificação de acessibilidade
-- Retry automático em caso de falha
-- Suporte a proxy
-- Rate limiting configurável
-- Rotação de User-Agents
+- Detecção e reconhecimento de objetos em imagens
+- Processamento de frames de vídeo
+- Extração de texto de imagens (OCR)
+- Análise de padrões visuais
+- Tracking de objetos em vídeo
+- Segmentação de imagens
 
-### Processamento de Dados
-- Extração de metadados
-- Parsing de referências
-- Extração de texto do PDF
-- Identificação de figuras
-- Análise de citações
+## Tecnologias Utilizadas
 
-### Organização
-- Estrutura de diretórios por tópico
-- Nomeação padronizada de arquivos
-- Metadados em JSON
-- Cache de resultados
-- Backup automático
+- Python 3.8+
+- OpenCV (cv2)
+- TensorFlow/Keras
+- Tesseract OCR
+- NumPy
+- Pillow (PIL)
 
 ## Requisitos
 
-- Python 3.8+
-- Dependências principais:
-  ```
-  requests>=2.31.0
-  beautifulsoup4>=4.12.0
-  selenium>=4.15.0
-  PyPDF2>=3.0.0
-  scholarly>=1.7.0
-  ```
+```txt
+opencv-python>=4.8.0
+tensorflow>=2.12.0
+pytesseract>=0.3.10
+numpy>=1.24.0
+pillow>=10.0.0
+```
 
 ## Instalação
 
@@ -106,92 +50,104 @@ venv\\Scripts\\activate   # Windows
 pip install -r requirements.txt
 ```
 
+4. Instale o Tesseract OCR:
+- Windows: Baixe o instalador do [Tesseract](https://github.com/UB-Mannheim/tesseract/wiki)
+- Linux: `sudo apt install tesseract-ocr`
+- Mac: `brew install tesseract`
+
 ## Uso
 
-### Busca Básica
+### Processamento de Imagem
 ```python
-from scraper import PaperScraper
+from scraper import ImageProcessor
 
-scraper = PaperScraper()
-results = scraper.search("giftedness education")
-scraper.download_papers(results, output_dir="downloads/giftedness")
+# Inicializa o processador
+processor = ImageProcessor()
+
+# Detecta objetos em uma imagem
+objects = processor.detect_objects('imagem.jpg')
+
+# Extrai texto de uma imagem
+text = processor.extract_text('documento.png')
 ```
 
-### Busca Avançada
+### Processamento de Vídeo
 ```python
-scraper.search(
-    query="metacognition in gifted students",
-    year_range=(2018, 2023),
-    publishers=["PLOS ONE", "Frontiers"],
-    language="english",
-    limit=50
-)
-```
+from scraper import VideoProcessor
 
-### Download com Filtros
-```python
-scraper.download_papers(
-    results,
-    output_dir="downloads/metacognition",
-    file_types=["pdf", "supplementary"],
-    skip_existing=True,
-    verify_integrity=True
-)
+# Inicializa o processador de vídeo
+processor = VideoProcessor()
+
+# Processa um vídeo frame por frame
+processor.process_video('video.mp4', output='resultado.mp4')
+
+# Tracking de objetos em tempo real
+processor.track_objects('webcam', show_preview=True)
 ```
 
 ## Estrutura do Projeto
 
 ```
 scraping/
-├── scraper.py          # Classe principal do scraper
-├── publishers/         # Handlers específicos por publisher
-│   ├── plos.py
-│   ├── mdpi.py
-│   └── frontiers.py
+├── scraper.py          # Classe principal
+├── processors/         # Processadores específicos
+│   ├── image.py       # Processamento de imagens
+│   ├── video.py       # Processamento de vídeo
+│   └── ocr.py         # Extração de texto
+├── models/            # Modelos pré-treinados
 ├── utils/             # Funções utilitárias
-│   ├── download.py
-│   ├── parser.py
-│   └── metadata.py
-├── config/           # Arquivos de configuração
-│   ├── settings.py
-│   └── proxies.py
-├── tests/            # Testes unitários
-├── downloads/        # Diretório de downloads
-├── requirements.txt  # Dependências
-└── README.md        # Documentação
+│   ├── visualization.py
+│   └── preprocessing.py
+├── tests/             # Testes unitários
+├── examples/          # Exemplos de uso
+├── requirements.txt   # Dependências
+└── README.md         # Documentação
 ```
+
+## Recursos
+
+### Processamento de Imagens
+- Redimensionamento e recorte
+- Filtros e transformações
+- Detecção de bordas
+- Segmentação
+- Análise de cores
+- Detecção de faces
+
+### Processamento de Vídeo
+- Extração de frames
+- Tracking de movimento
+- Análise de fluxo óptico
+- Estabilização
+- Detecção em tempo real
+
+### OCR (Optical Character Recognition)
+- Reconhecimento de texto em imagens
+- Suporte a múltiplos idiomas
+- Pré-processamento automático
+- Correção de perspectiva
+- Melhoria de contraste
 
 ## Configuração
 
-### Configurações Gerais
+### Configurações do OpenCV
 ```python
-# config/settings.py
-SETTINGS = {
-    'max_retries': 3,
-    'timeout': 30,
-    'rate_limit': 2,  # requisições por segundo
-    'cache_duration': 86400,  # 24 horas
-    'verify_ssl': True
+OPENCV_CONFIG = {
+    'scale_factor': 1.1,
+    'min_neighbors': 5,
+    'min_size': (30, 30),
+    'flags': cv2.CASCADE_SCALE_IMAGE
 }
 ```
 
-### Configuração de Proxy
+### Configurações do OCR
 ```python
-# config/proxies.py
-PROXIES = {
-    'http': 'http://proxy:port',
-    'https': 'https://proxy:port'
+OCR_CONFIG = {
+    'lang': 'por+eng',
+    'config': '--oem 3 --psm 6',
+    'timeout': 30
 }
 ```
-
-## Tratamento de Erros
-
-O scraper implementa tratamento robusto de erros:
-- Retry automático com backoff exponencial
-- Logging detalhado
-- Verificação de integridade de arquivos
-- Fallback para métodos alternativos de download
-- Cache para evitar requisições repetidas
 
 ## Contribuindo
 
@@ -203,13 +159,13 @@ O scraper implementa tratamento robusto de erros:
 
 ## Próximas Atualizações
 
-- [ ] Suporte a novos publishers
-- [ ] Interface web para busca
-- [ ] Análise de texto completo
-- [ ] Extração de referências cruzadas
-- [ ] Integração com gestores bibliográficos
-- [ ] Análise de redes de citação
-- [ ] OCR para PDFs escaneados
+- [ ] Suporte a YOLO v5
+- [ ] Integração com CUDA
+- [ ] Interface gráfica
+- [ ] Processamento em batch
+- [ ] Novos modelos de detecção
+- [ ] Melhorias no OCR
+- [ ] Suporte a GPU
 - [ ] API REST
 
 ## Contato
